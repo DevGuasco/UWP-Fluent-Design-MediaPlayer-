@@ -1,0 +1,75 @@
+﻿<Page
+    x:Class="Guasco_Media_Player.View.MainPage"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" xmlns:Windows10version1903="http://schemas.microsoft.com/winfx/2006/xaml/presentation?IsApiContractPresent(Windows.Foundation.UniversalApiContract, 8)" xmlns:local="using:Guasco_Media_Player"
+    mc:Ignorable="d"
+    RequestedTheme="Dark">
+
+    <Page.Resources>
+        
+        <!-- Style for navigationview panel -->
+        <AcrylicBrush x:Key="NavigationViewDefaultPaneBackground" BackgroundSource="Backdrop" TintColor="Black" TintOpacity=".6" />
+        <AcrylicBrush x:Key="NavigationViewExpandedPaneBackground" BackgroundSource="HostBackdrop" TintColor="Black" TintOpacity=".10"/>
+        
+        <!-- Margins for grid items -->
+        <x:Int32 x:Key="LargeItemMarginValue">4</x:Int32>
+        <Thickness x:Key="LargeItemMargin">4</Thickness>
+        <x:Int32 x:Key="DesktopWindowSidePaddingValue">16</x:Int32>
+
+    </Page.Resources>
+
+    <Grid>
+        <NavigationView x:Name="NavView"
+            IsSettingsVisible="False" Background="{ThemeResource SystemControlBaseHighAcrylicElementMediumHighBrush}" IsPaneOpen="False" IsBackButtonVisible="Collapsed" PaneDisplayMode="Auto" IsPaneToggleButtonVisible="False"  Margin="0,-1,0,0">
+
+            <RelativePanel Background="Black">
+                <RelativePanel.Resources>
+                    <local:ThumbnailToImageConverter x:Key="cvt" />
+                </RelativePanel.Resources>
+
+                <TextBlock x:Name="TitleTextBlock"
+                   Text="Video"
+                   Style="{StaticResource TitleTextBlockStyle}"
+                   Margin="24, 15,0,24" />
+                
+                <Grid RelativePanel.AlignLeftWithPanel="True"
+                      RelativePanel.AlignRightWithPanel="True">
+                    <ParallaxView x:Name="ParaView" VerticalShift="50"></ParallaxView>
+
+                    <ScrollViewer x:Name="ForegroundElement" Margin="0, 55, 0, 0">
+
+                        <GridView x:Name="gridView" Margin="35, 0, 0, 0">
+                            <GridView.ItemTemplate>
+                                <DataTemplate>
+                                    <StackPanel>
+                                        <Image Source="{Binding Thumbnail, Converter={StaticResource cvt}}" Stretch="None" 
+                                               Margin="{StaticResource LargeItemMargin}" Tapped="Image_Tapped"/>
+                                    </StackPanel>
+                                </DataTemplate>
+                            </GridView.ItemTemplate>
+                        </GridView>
+                    </ScrollViewer>
+                </Grid>
+            </RelativePanel>
+            <NavigationView.MenuItems>
+                <NavigationViewItem Content="Play" Icon="Play"  x:Name="Play" Tag="play" Tapped="Play_Tapped"></NavigationViewItem>
+                <NavigationViewItem Content="About" x:Name="About" Tag="about" Tapped="About_Tapped">
+                    <NavigationViewItem.Icon>
+                        <FontIcon Glyph="&#xE946;"/>
+                    </NavigationViewItem.Icon>
+                </NavigationViewItem>
+            </NavigationView.MenuItems>
+            <NavigationView.PaneFooter>
+                <StackPanel Orientation="Vertical">
+                    <NavigationViewItem Content="Quit" Tapped="NavigationViewItem_Tapped">
+                        <NavigationViewItem.Icon>
+                            <FontIcon Glyph="&#xE7E8;"/>
+                        </NavigationViewItem.Icon>
+                    </NavigationViewItem>
+                </StackPanel>
+            </NavigationView.PaneFooter>
+        </NavigationView>
+    </Grid>
+</Page>
